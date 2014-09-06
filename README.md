@@ -30,11 +30,21 @@ Than run:
 
 ### Highlighting Words###
 
-By default you can highlight a word with the ``K`` key. This key will act as a toggle, so you can use it to highlight and to remove the highlight from a specific word. Note that you can highlight different words a the same time (8 to be exact).
+By default you can **highlight** a word with the ``K`` key. This key will act as a **toggle**, so you can use it to highlight and to remove the highlight from a specific word. Note that you can highlight different words a the same time (8 to be exact).
+
+![Screenshot](https://s3-us-west-2.amazonaws.com/vim-interestingwords/interesting-words-1.gif)
 
 ### Navigating Through the Highlighted Words###
 
-Once you have a highlighted word under your cursor, you can navigate through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
+Once you have a highlighted word under your cursor, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
+
+![Screenshot](https://s3-us-west-2.amazonaws.com/vim-interestingwords/interesting-words-2.gif)
+
+### Clearing all the Highlights ###
+
+Finally, if you don't want to toggle every single highlighted word and want to clear all of them, just hit ``<Leader>k``
+
+![Screenshot](https://s3-us-west-2.amazonaws.com/vim-interestingwords/interesting-words-3.gif)
 
 ## Configuration ##
 
@@ -42,7 +52,7 @@ The plugin comes with those default mapping, but you can change it as you like:
 
 ```vimscript
 nnoremap <silent> K         :call InterestingWords()<cr>
-nnoremap <silent> <leader>c :call UncolorAllWords()<cr>
+nnoremap <silent> <leader>k :call UncolorAllWords()<cr>
 
 nnoremap <silent> n :call WordNavigation('forward')<cr>
 nnoremap <silent> N :call WordNavigation('backward')<cr>
