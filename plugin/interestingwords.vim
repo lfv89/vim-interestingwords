@@ -87,7 +87,7 @@ hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=222
 
 nnoremap <silent> K         :call InterestingWords()<cr>
-nnoremap <silent> <leader>c :call UncolorAllWords()<cr>
+nnoremap <silent> <leader>k :call UncolorAllWords()<cr>
 
 nnoremap <silent> n :call WordNavigation('forward')<cr>
 nnoremap <silent> N :call WordNavigation('backward')<cr>
