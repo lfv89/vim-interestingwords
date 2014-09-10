@@ -3,14 +3,28 @@
 " .vimrc config https://www.youtube.com/watch?v=xZuy4gBghho
 " --------------------------------------------------------------------
 
+
+let s:interestingWordsGUIColors = ['#aeee00', '#ff0000', '#0000ff', '#b88823', '#ffa724', '#ff2c4b']
+let s:interestingWordsTermColors = ['154', '121', '211', '137', '214', '222']
+
+let g:interestingWordsGUIColors = exists('g:interestingWordsGUIColors') ? g:interestingWordsGUIColors : s:interestingWordsGUIColors
+let g:interestingWordsTermColors = exists('g:interestingWordsTermColors') ? g:interestingWordsTermColors : s:interestingWordsTermColors
+
+let s:hasBuiltColors = 0
+
 let s:interestingWords = []
 let s:mids = []
 
 function! ColorWord(n)
+  if !(s:hasBuiltColors)
+    call s:buildColors()
+  endif
+
   if (a:n > len(g:interestingWordsGUIColors))
     echom "InterestingWords: max number of highlight groups reached: " a:n-1
     return
   endif
+
   let currentWord = expand('<cword>') . ''
 
   if (index(s:interestingWords, currentWord) == -1)
@@ -83,15 +97,47 @@ function! UncolorAllWords()
   endif
 endfunction
 
-hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
-hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#ff0000 ctermbg=121
-hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#0000ff ctermbg=211
-hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88823 ctermbg=137
-hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
-hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=222
+" initialise colors from list of GUIColors
+function! s:buildColors()
+  if (s:hasBuiltColors)
+    return
+  endif
+  if has('gui_running')
+    let ui = 'gui'
+    let wordColors = g:interestingWordsGUIColors
+  else
+    let ui = 'cterm'
+    let wordColors = g:interestingWordsTermColors
+  endif
+  if (exists('g:interestingWordsRandomiseColors') && g:interestingWordsRandomiseColors)
+    " fisher-yates shuffle
+    let i = len(wordColors)-1
+    while i > 0
+      let j = s:Random(i)
+      let temp = wordColors[i]
+      let wordColors[i] = wordColors[j]
+      let wordColors[j] = temp
+      let i -= 1
+    endwhile
+  endif
+  " select ui type
+  " highlight group indexed from 1
+  let currentIndex = 1
+  for wordColor in wordColors
+    execute 'hi! def InterestingWord' . currentIndex . ' ' . ui . 'bg=' . wordColor . ' ' . ui . 'fg=Black'
+    let currentIndex += 1
+  endfor
+  let s:hasBuiltColors = 1
+endfunc
 
-nnoremap <silent> K         :call InterestingWords()<cr>
-nnoremap <silent> <leader>k :call UncolorAllWords()<cr>
+" helper function to get random number between 0 and n-1 inclusive
+function! s:Random(n)
+  let timestamp = reltimestr(reltime())[-2:]
+  return float2nr(floor(a:n * timestamp/100))
+endfunction
+
+nnoremap <silent> <leader>k :call InterestingWords()<cr>
+nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 
 nnoremap <silent> n :call WordNavigation('forward')<cr>
 nnoremap <silent> N :call WordNavigation('backward')<cr>
