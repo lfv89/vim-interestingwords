@@ -26,23 +26,21 @@ function! ColorWord(n)
   endif
 
   let currentWord = expand('<cword>') . ''
+  if (currentWord =~# '^\k\+$')
+    if (index(s:interestingWords, currentWord) == -1)
 
-  if (index(s:interestingWords, currentWord) == -1)
-    let mid = 86750 + a:n
+      let mid = 86750 + a:n
 
-    call add(s:interestingWords, currentWord)
-    call add(s:mids, mid)
+      call add(s:interestingWords, currentWord)
+      call add(s:mids, mid)
 
-    normal! mz
-    normal! "zyiw
+      let pat = '\V\<' . escape(currentWord, '\') . '\>'
 
-    let pat = '\V\<' . escape(@z, '\') . '\>'
+      call matchadd("InterestingWord" . a:n, pat, 1, mid)
 
-    call matchadd("InterestingWord" . a:n, pat, 1, mid)
-
-    normal! `z
-  else
-    call UncolorWord()
+    else
+      call UncolorWord()
+    endif
   endif
 endfunction
 
