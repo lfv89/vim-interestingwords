@@ -29,7 +29,7 @@ function! ColorWord(n)
   if (currentWord =~# '^\k\+$')
     if (index(s:interestingWords, currentWord) == -1)
 
-      let mid = 86750 + a:n
+      let mid = 595129 + a:n
 
       call add(s:interestingWords, currentWord)
       call add(s:mids, mid)
