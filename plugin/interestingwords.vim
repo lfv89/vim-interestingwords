@@ -7,6 +7,10 @@ let s:interestingWords = []
 let s:mids = []
 
 function! ColorWord(n)
+  if (a:n > len(g:interestingWordsGUIColors))
+    echom "InterestingWords: max number of highlight groups reached: " a:n-1
+    return
+  endif
   let currentWord = expand('<cword>') . ''
 
   if (index(s:interestingWords, currentWord) == -1)
