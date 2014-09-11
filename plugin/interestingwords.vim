@@ -3,7 +3,6 @@
 " .vimrc config https://www.youtube.com/watch?v=xZuy4gBghho
 " --------------------------------------------------------------------
 
-
 let s:interestingWordsGUIColors = ['#aeee00', '#ff0000', '#0000ff', '#b88823', '#ffa724', '#ff2c4b']
 let s:interestingWordsTermColors = ['154', '121', '211', '137', '214', '222']
 
@@ -14,16 +13,23 @@ let s:hasBuiltColors = 0
 
 let s:interestingWords = []
 let s:mids = {}
+let s:recentlyUsed = []
 
 function! ColorWord(word)
   if !(s:hasBuiltColors)
     call s:buildColors()
   endif
 
+  " gets the lowest unused index
   let n = index(s:interestingWords, 0)
   if (n == -1)
-    echom "InterestingWords: max number of highlight groups reached"
-    return
+    if !(g:interestingWordsCycleColors)
+      echom "InterestingWords: max number of highlight groups reached"
+      return
+    else
+      let n = s:recentlyUsed[0]
+      call UncolorWord(s:interestingWords[n])
+    endif
   endif
 
   let mid = 595129 + n
@@ -32,6 +38,8 @@ function! ColorWord(word)
 
   let pat = '\V\<' . escape(a:word, '\') . '\>'
   call matchadd("InterestingWord" . (n + 1), pat, 1, mid)
+
+  call s:markRecentlyUsed(n)
 
 endfunction
 
@@ -82,15 +90,24 @@ function! InterestingWords()
 endfunction
 
 function! UncolorAllWords()
-  for mid in values(s:mids)
-    call matchdelete(mid)
+  for word in s:interestingWords
+    " check that word is actually a String since '0' is falsy
+    if (type(word) == 1)
+      call UncolorWord(word)
+    endif
   endfor
-  let s:mids = {}
-  let s:interestingWords = []
 endfunction
 
-" initialise colors from list of GUIColors
+" moves the index to the back of the s:recentlyUsed list
+function! s:markRecentlyUsed(n)
+  let index = index(s:recentlyUsed, a:n)
+  call remove(s:recentlyUsed, index)
+  call add(s:recentlyUsed, a:n)
+endfunction
+
+" initialise highlight colors from list of GUIColors
 " initialise length of s:interestingWord list
+" initialise s:recentlyUsed list
 function! s:buildColors()
   if (s:hasBuiltColors)
     return
@@ -119,6 +136,7 @@ function! s:buildColors()
   for wordColor in wordColors
     execute 'hi! def InterestingWord' . currentIndex . ' ' . ui . 'bg=' . wordColor . ' ' . ui . 'fg=Black'
     call add(s:interestingWords, 0)
+    call add(s:recentlyUsed, currentIndex-1)
     let currentIndex += 1
   endfor
   let s:hasBuiltColors = 1
