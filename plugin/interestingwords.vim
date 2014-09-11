@@ -23,8 +23,8 @@ function! ColorWord(word)
   " gets the lowest unused index
   let n = index(s:interestingWords, 0)
   if (n == -1)
-    if !(g:interestingWordsCycleColors)
-      echom "InterestingWords: max number of highlight groups reached"
+    if !(exists('g:interestingWordsCycleColors') && g:interestingWordsCycleColors)
+      echom "InterestingWords: max number of highlight groups reached " . len(s:interestingWords)
       return
     else
       let n = s:recentlyUsed[0]
