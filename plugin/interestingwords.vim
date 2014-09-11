@@ -36,7 +36,9 @@ function! ColorWord(word)
   let s:interestingWords[n] = a:word
   let s:mids[a:word] = mid
 
-  let pat = '\V\<' . escape(a:word, '\') . '\>'
+  let case = s:checkIgnoreCase(a:word) ? '\c' : '\C'
+  let pat = case . '\V\<' . escape(a:word, '\') . '\>'
+
   call matchadd("InterestingWord" . (n + 1), pat, 1, mid)
 
   call s:markRecentlyUsed(n)
@@ -58,20 +60,22 @@ endfunction
 function! WordNavigation(direction)
   let currentWord = expand('<cword>') . ''
 
+  if (s:checkIgnoreCase(currentWord))
+    let currentWord = tolower(currentWord)
+  endif
+
   if (index(s:interestingWords, currentWord) > -1)
-    if (a:direction == 'forward')
-      normal! *
+    let case = s:checkIgnoreCase(currentWord) ? '\c' : '\C'
+    let pat = case . '\V\<' . escape(currentWord, '\') . '\>'
+    let searchFlag = ''
+    if !(a:direction)
+      let searchFlag = 'b'
     endif
-
-    if (a:direction == 'backward')
-      normal! #
-    endif
+    call search(pat, searchFlag)
   else
-    if (a:direction == 'forward')
+    if (a:direction)
       silent! normal! n
-    endif
-
-    if (a:direction == 'backward')
+    else
       silent! normal! N
     endif
   endif
@@ -81,6 +85,9 @@ function! InterestingWords()
   let currentWord = expand('<cword>') . ''
   if !(len(currentWord))
     return
+  endif
+  if (s:checkIgnoreCase(currentWord))
+    let currentWord = tolower(currentWord)
   endif
   if (index(s:interestingWords, currentWord) == -1)
     call ColorWord(currentWord)
@@ -96,6 +103,17 @@ function! UncolorAllWords()
       call UncolorWord(word)
     endif
   endfor
+endfunction
+
+" returns true if the ignorecase flag needs to be used
+function! s:checkIgnoreCase(word)
+  " return false if case sensitive is used
+  if (exists('g:interestingWordsCaseSensitive'))
+    return !g:interestingWordsCaseSensitive
+  endif
+  " checks ignorecase
+  " and then if smartcase is on, check if the word contains an uppercase char
+  return &ignorecase && (!&smartcase || (match(a:word, '\u') == -1))
 endfunction
 
 " moves the index to the back of the s:recentlyUsed list
@@ -151,5 +169,5 @@ endfunction
 nnoremap <silent> <leader>k :call InterestingWords()<cr>
 nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 
-nnoremap <silent> n :call WordNavigation('forward')<cr>
-nnoremap <silent> N :call WordNavigation('backward')<cr>
+nnoremap <silent> n :call WordNavigation(1)<cr>
+nnoremap <silent> N :call WordNavigation(0)<cr>
