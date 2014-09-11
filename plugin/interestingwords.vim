@@ -13,48 +13,37 @@ let g:interestingWordsTermColors = exists('g:interestingWordsTermColors') ? g:in
 let s:hasBuiltColors = 0
 
 let s:interestingWords = []
-let s:mids = []
+let s:mids = {}
 
-function! ColorWord(n)
+function! ColorWord(word)
   if !(s:hasBuiltColors)
     call s:buildColors()
   endif
 
-  if (a:n > len(g:interestingWordsGUIColors))
-    echom "InterestingWords: max number of highlight groups reached: " a:n-1
+  let n = index(s:interestingWords, 0)
+  if (n == -1)
+    echom "InterestingWords: max number of highlight groups reached"
     return
   endif
 
-  let currentWord = expand('<cword>') . ''
-  if (currentWord =~# '^\k\+$')
-    if (index(s:interestingWords, currentWord) == -1)
+  let mid = 595129 + n
+  let s:interestingWords[n] = a:word
+  let s:mids[a:word] = mid
 
-      let mid = 595129 + a:n
+  let pat = '\V\<' . escape(a:word, '\') . '\>'
+  call matchadd("InterestingWord" . (n + 1), pat, 1, mid)
 
-      call add(s:interestingWords, currentWord)
-      call add(s:mids, mid)
-
-      let pat = '\V\<' . escape(currentWord, '\') . '\>'
-
-      call matchadd("InterestingWord" . a:n, pat, 1, mid)
-
-    else
-      call UncolorWord()
-    endif
-  endif
 endfunction
 
-function! UncolorWord()
-  let currentWord = expand('<cword>') . ''
-  let currentWordPosition = index(s:interestingWords, currentWord)
+function! UncolorWord(word)
+  let index = index(s:interestingWords, a:word)
 
-  if (currentWordPosition > -1)
-    let mid = s:mids[currentWordPosition]
+  if (index > -1)
+    let mid = s:mids[a:word]
 
     silent! call matchdelete(mid)
-
-    call remove(s:interestingWords, currentWordPosition)
-    call remove(s:mids, currentWordPosition)
+    let s:interestingWords[index] = 0
+    unlet s:mids[a:word]
   endif
 endfunction
 
@@ -81,21 +70,27 @@ function! WordNavigation(direction)
 endfunction
 
 function! InterestingWords()
-  call ColorWord(len(s:interestingWords) + 1)
-endfunction
-
-function! UncolorAllWords()
-  if (len(s:mids) > 0)
-    for mid in s:mids
-      call matchdelete(mid)
-    endfor
-
-    call remove(s:mids, 0, -1)
-    call remove(s:interestingWords, 0, -1)
+  let currentWord = expand('<cword>') . ''
+  if !(len(currentWord))
+    return
+  endif
+  if (index(s:interestingWords, currentWord) == -1)
+    call ColorWord(currentWord)
+  else
+    call UncolorWord(currentWord)
   endif
 endfunction
 
+function! UncolorAllWords()
+  for mid in values(s:mids)
+    call matchdelete(mid)
+  endfor
+  let s:mids = {}
+  let s:interestingWords = []
+endfunction
+
 " initialise colors from list of GUIColors
+" initialise length of s:interestingWord list
 function! s:buildColors()
   if (s:hasBuiltColors)
     return
@@ -123,6 +118,7 @@ function! s:buildColors()
   let currentIndex = 1
   for wordColor in wordColors
     execute 'hi! def InterestingWord' . currentIndex . ' ' . ui . 'bg=' . wordColor . ' ' . ui . 'fg=Black'
+    call add(s:interestingWords, 0)
     let currentIndex += 1
   endfor
   let s:hasBuiltColors = 1
