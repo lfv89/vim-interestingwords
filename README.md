@@ -80,6 +80,6 @@ let g:interestingWordsRandomiseColors = 1
 
 ## About
 
-blog:    [http://luisvasconcellos.sexy](http://www.luisvasconcellos.com)
+blog:    [http://luisvasconcellos.sexy](http://luisvasconcellos.sexy)
 
 twitter: [@vasconcelloslf](http://twitter.com/vasconcelloslf)
