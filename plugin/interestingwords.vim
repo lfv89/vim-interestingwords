@@ -136,8 +136,25 @@ function! s:Random(n)
   return float2nr(floor(a:n * timestamp/100))
 endfunction
 
-nnoremap <silent> <leader>k :call InterestingWords()<cr>
-nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
+if !exists('g:interestingWordsDefaultMappings')
+    let g:interestingWordsDefaultMappings = 1
+endif
 
-nnoremap <silent> n :call WordNavigation('forward')<cr>
-nnoremap <silent> N :call WordNavigation('backward')<cr>
+if !hasmapto('<Plug>InterestingWords')
+    nnoremap <silent> <leader>k :call InterestingWords()<cr>
+    nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
+
+    nnoremap <silent> n :call WordNavigation('forward')<cr>
+    nnoremap <silent> N :call WordNavigation('backward')<cr>
+endif
+
+if g:interestingWordsDefaultMappings
+    nnoremap <silent> <unique> <script> <Plug>InterestingWords
+                \ :call InterestingWords()<cr>
+    nnoremap <silent> <unique> <script> <Plug>InterestingWordsClear
+                \ :call UncolorAllWords()<cr>
+    nnoremap <silent> <unique> <script> <Plug>InterestingWordsForeward
+                \ :call WordNavigation('forward')<cr>
+    nnoremap <silent> <unique> <script> <Plug>InterestingWordsBackward
+                \ :call WordNavigation('backward')<cr>
+endif
