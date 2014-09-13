@@ -174,8 +174,8 @@ if !hasmapto('<Plug>InterestingWords')
     nnoremap <silent> <leader>k :call InterestingWords()<cr>
     nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 
-    nnoremap <silent> n :call WordNavigation('forward')<cr>
-    nnoremap <silent> N :call WordNavigation('backward')<cr>
+    nnoremap <silent> n :call WordNavigation(1)<cr>
+    nnoremap <silent> N :call WordNavigation(0)<cr>
 endif
 
 if g:interestingWordsDefaultMappings
@@ -184,7 +184,7 @@ if g:interestingWordsDefaultMappings
     nnoremap <silent> <unique> <script> <Plug>InterestingWordsClear
                 \ :call UncolorAllWords()<cr>
     nnoremap <silent> <unique> <script> <Plug>InterestingWordsForeward
-                \ :call WordNavigation('forward')<cr>
+                \ :call WordNavigation(1)<cr>
     nnoremap <silent> <unique> <script> <Plug>InterestingWordsBackward
-                \ :call WordNavigation('backward')<cr>
+                \ :call WordNavigation(0)<cr>
 endif
