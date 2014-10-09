@@ -179,12 +179,15 @@ if !hasmapto('<Plug>InterestingWords')
 endif
 
 if g:interestingWordsDefaultMappings
-    nnoremap <silent> <unique> <script> <Plug>InterestingWords
-                \ :call InterestingWords()<cr>
-    nnoremap <silent> <unique> <script> <Plug>InterestingWordsClear
-                \ :call UncolorAllWords()<cr>
-    nnoremap <silent> <unique> <script> <Plug>InterestingWordsForeward
-                \ :call WordNavigation(1)<cr>
-    nnoremap <silent> <unique> <script> <Plug>InterestingWordsBackward
-                \ :call WordNavigation(0)<cr>
+   try
+      nnoremap <silent> <unique> <script> <Plug>InterestingWords
+               \ :call InterestingWords()<cr>
+      nnoremap <silent> <unique> <script> <Plug>InterestingWordsClear
+               \ :call UncolorAllWords()<cr>
+      nnoremap <silent> <unique> <script> <Plug>InterestingWordsForeward
+               \ :call WordNavigation(1)<cr>
+      nnoremap <silent> <unique> <script> <Plug>InterestingWordsBackward
+               \ :call WordNavigation(0)<cr>
+   catch /E227/
+   endtry
 endif
