@@ -2,7 +2,7 @@
 
 ## What is it? ##
 
-TL;DR Scroll for the gifts.
+TL;DR Scroll for the gifs.
 
 vim-interstingwords is a vim plugin that **highlights** all the occurrences of the word under your cursor. It can be used to highlight **different** words at the same time. To highlight a word you hit ``<Leader>k``.
 
