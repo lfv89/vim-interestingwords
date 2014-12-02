@@ -12,10 +12,11 @@ let g:interestingWordsTermColors = exists('g:interestingWordsTermColors') ? g:in
 let s:hasBuiltColors = 0
 
 let s:interestingWords = []
+let s:interestingModes = []
 let s:mids = {}
 let s:recentlyUsed = []
 
-function! ColorWord(word)
+function! ColorWord(word, mode)
   if !(s:hasBuiltColors)
     call s:buildColors()
   endif
@@ -34,15 +35,38 @@ function! ColorWord(word)
 
   let mid = 595129 + n
   let s:interestingWords[n] = a:word
+  let s:interestingModes[n] = a:mode
   let s:mids[a:word] = mid
 
   let case = s:checkIgnoreCase(a:word) ? '\c' : '\C'
-  let pat = case . '\V\<' . escape(a:word, '\') . '\>'
+  if a:mode == 'v'
+    let pat = case . '\V\zs' . escape(a:word, '\') . '\ze'
+  else
+    let pat = case . '\V\<' . escape(a:word, '\') . '\>'
+  endif
 
   call matchadd("InterestingWord" . (n + 1), pat, 1, mid)
 
   call s:markRecentlyUsed(n)
 
+endfunction
+
+function! s:nearest_group_at_cursor() abort
+  let l:matches = {}
+  for l:match_item in getmatches()
+    let l:mids = filter(items(s:mids), 'v:val[1] == l:match_item.id')
+    if len(l:mids) == 0
+      continue
+    endif
+    let l:word = l:mids[0][0]
+    let l:position = match(getline('.'), l:match_item.pattern)
+    if l:position > -1
+      if col('.') > l:position && col('.') <= l:position + len(l:word)
+        return l:word
+      endif
+    endif
+  endfor
+  return ''
 endfunction
 
 function! UncolorWord(word)
@@ -57,16 +81,26 @@ function! UncolorWord(word)
   endif
 endfunction
 
+function! s:getmatch(mid) abort
+  return filter(getmatches(), 'v:val.id==a:mid')[0]
+endfunction
+
 function! WordNavigation(direction)
-  let currentWord = expand('<cword>') . ''
+  let currentWord = s:nearest_group_at_cursor()
 
   if (s:checkIgnoreCase(currentWord))
     let currentWord = tolower(currentWord)
   endif
 
   if (index(s:interestingWords, currentWord) > -1)
+    let l:index = index(s:interestingWords, currentWord)
+    let l:mode = s:interestingModes[index]
     let case = s:checkIgnoreCase(currentWord) ? '\c' : '\C'
-    let pat = case . '\V\<' . escape(currentWord, '\') . '\>'
+    if l:mode == 'v'
+      let pat = case . '\V\zs' . escape(currentWord, '\') . '\ze'
+    else
+      let pat = case . '\V\<' . escape(currentWord, '\') . '\>'
+    endif
     let searchFlag = ''
     if !(a:direction)
       let searchFlag = 'b'
@@ -81,8 +115,12 @@ function! WordNavigation(direction)
   endif
 endfunction
 
-function! InterestingWords()
-  let currentWord = expand('<cword>') . ''
+function! InterestingWords(mode) range
+  if a:mode == 'v'
+    let currentWord = s:get_visual_selection()
+  else
+    let currentWord = expand('<cword>') . ''
+  endif
   if !(len(currentWord))
     return
   endif
@@ -90,10 +128,20 @@ function! InterestingWords()
     let currentWord = tolower(currentWord)
   endif
   if (index(s:interestingWords, currentWord) == -1)
-    call ColorWord(currentWord)
+    call ColorWord(currentWord, a:mode)
   else
     call UncolorWord(currentWord)
   endif
+endfunction
+
+function! s:get_visual_selection()
+  " Why is this not a built-in Vim script function?!
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col1 - 1:]
+  return join(lines, "\n")
 endfunction
 
 function! UncolorAllWords()
@@ -154,6 +202,7 @@ function! s:buildColors()
   for wordColor in wordColors
     execute 'hi! def InterestingWord' . currentIndex . ' ' . ui . 'bg=' . wordColor . ' ' . ui . 'fg=Black'
     call add(s:interestingWords, 0)
+    call add(s:interestingModes, 'n')
     call add(s:recentlyUsed, currentIndex-1)
     let currentIndex += 1
   endfor
@@ -171,8 +220,10 @@ if !exists('g:interestingWordsDefaultMappings')
 endif
 
 if !hasmapto('<Plug>InterestingWords')
-    nnoremap <silent> <leader>k :call InterestingWords()<cr>
+    nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
     nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
+    vnoremap <silent> <leader>k :call InterestingWords('v')<cr>
+    vnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 
     nnoremap <silent> n :call WordNavigation(1)<cr>
     nnoremap <silent> N :call WordNavigation(0)<cr>
