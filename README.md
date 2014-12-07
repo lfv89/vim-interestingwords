@@ -32,7 +32,7 @@ Than run:
 
 ### Highlighting Words
 
-By default you can **highlight** a word with the ``<Leader>k`` key. This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words a the same time.
+By default you can **highlight** a word with the ``<Leader>k`` key. This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
 
 ![Screenshot](https://s3-us-west-2.amazonaws.com/vim-interestingwords/interesting-words-1.gif)
 
@@ -53,7 +53,7 @@ Finally, if you don't want to toggle every single highlighted word and want to c
 The plugin comes with those default mapping, but you can change it as you like:
 
 ```vimscript
-nnoremap <silent> <leader>k         :call InterestingWords()<cr>
+nnoremap <silent> <leader>k :call InterestingWords()<cr>
 nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 
 nnoremap <silent> n :call WordNavigation('forward')<cr>
