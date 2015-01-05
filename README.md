@@ -32,17 +32,23 @@ Than run:
 
 ### Highlighting Words
 
-By default you can **highlight** a word with the ``<Leader>k`` key. This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
+``<Leader>k``
+
+This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
 
 ![Screenshot](https://s3-us-west-2.amazonaws.com/vim-interestingwords/interesting-words-1.gif)
 
 ### Navigating Through the Highlighted Words
+
+``n`` and ``N``
 
 Once you have a highlighted word under your cursor, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
 
 ![Screenshot](https://s3-us-west-2.amazonaws.com/vim-interestingwords/interesting-words-2.gif)
 
 ### Clearing all the Highlights
+
+``<Leader>K``
 
 Finally, if you don't want to toggle every single highlighted word and want to clear all of them, just hit ``<Leader>K``
 
