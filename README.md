@@ -22,7 +22,7 @@ Using vundle, add this to your .vimrc:
 Plugin 'vasconcelloslf/vim-interestingwords'
 ```
 
-Than run:
+Then run:
 
 ```vimscript
 :PluginInstall
@@ -32,7 +32,7 @@ Than run:
 
 ### Highlighting Words
 
-``<Leader>k``
+Highlight with ``<Leader>k``
 
 This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
 
@@ -40,7 +40,7 @@ This key will act as a **toggle**, so you can use it to highlight and remove the
 
 ### Navigating Through the Highlighted Words
 
-``n`` and ``N``
+Navigate with ``n`` and ``N``
 
 Once you have a highlighted word under your cursor, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
 
@@ -48,7 +48,7 @@ Once you have a highlighted word under your cursor, you can **navigate** through
 
 ### Clearing all the Highlights
 
-``<Leader>K``
+Clear with ``<Leader>K``
 
 Finally, if you don't want to toggle every single highlighted word and want to clear all of them, just hit ``<Leader>K``
 
