@@ -86,10 +86,8 @@ Also, if you want to randomise the colors (applied to each new buffer), add this
 let g:interestingWordsRandomiseColors = 1
 ```
 
-## About
+## Author
 
 [@lfv89](http://twitter.com/lfv89)
 
 [http://luisvasconcellos.com](http://luisvasconcellos.com)
-
-
