@@ -88,6 +88,8 @@ let g:interestingWordsRandomiseColors = 1
 
 ## Author
 
-[@lfv89](http://twitter.com/lfv89)
+[twitter.com/lfv89](http://twitter.com/lfv89)
 
-[http://luisvasconcellos.com](http://luisvasconcellos.com)
+[luisvasconcellos.com](http://www.luisvasconcellos.com)
+
+Feel free to talk to me about anything related to this project.
