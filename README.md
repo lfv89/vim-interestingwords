@@ -4,7 +4,7 @@
 
 ## What is it?
 
-vim-interstingwords is a vim plugin that **highlights** the occurrences of the word under your cursor in the current buffer. It can be used to highlight **different** words at the same time. It also lets you **navigate** through the highlighted words just like you would navigate through the results of a search.
+A plugin that **highlights** the occurrences of the word under your cursor in the current buffer. It can be used to highlight **different** words at the same time. It also lets you **navigate** through the highlighted words just like you would navigate through the results of a search.
 
 ## Installation
 
