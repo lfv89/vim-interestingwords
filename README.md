@@ -22,22 +22,16 @@ Then run:
 
 ## Usage
 
-### Highlighting Words
-
-Highlight with ``<Leader>k``
+### Highlight with ``<Leader>k``
 
 This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
 
 
-### Navigating Through the Highlighted Words
-
-Navigate with ``n`` and ``N``
+### Navigate with ``n`` and ``N``
 
 Once you have a highlighted word under your cursor, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
 
-### Clearing all the Highlights
-
-Clear with ``<Leader>K``
+### Clear with ``<Leader>K``
 
 Finally, if you don't want to toggle every single highlighted word and want to clear all of them, just hit ``<Leader>K``
 
