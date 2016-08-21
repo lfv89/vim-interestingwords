@@ -29,7 +29,7 @@ This key will act as a **toggle**, so you can use it to highlight and remove the
 
 ### Navigate with ``n`` and ``N``
 
-Once you have a highlighted word under your cursor, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
+With a highlighted word **under your cursor**, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
 
 ### Clear with ``<Leader>K``
 
