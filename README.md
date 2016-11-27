@@ -1,6 +1,6 @@
 # vim-interestingwords
 
-![Screenshot](https://s3-us-west-2.amazonaws.com/vim-interestingwords/interesting-words-1.gif)
+![Screenshot](https://lh5.googleusercontent.com/4Cp2cRow-HkOVRNL_RB9GZN3i_7pqeBxQE2oLI5--r5s_6F92ywWf1C-vlPV-EzDHajl7xAYGwB4Pbc=w2552-h1360-rw)
 
 ## What is it?
 
