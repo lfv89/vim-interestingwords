@@ -38,6 +38,13 @@ function! ColorWord(word, mode)
   let s:interestingModes[n] = a:mode
   let s:mids[a:word] = mid
 
+  call s:apply_color_to_word(n, a:word, a:mode, mid)
+
+  call s:markRecentlyUsed(n)
+
+endfunction
+
+function! s:apply_color_to_word(n, word, mode, mid)
   let case = s:checkIgnoreCase(a:word) ? '\c' : '\C'
   if a:mode == 'v'
     let pat = case . '\V\zs' . escape(a:word, '\') . '\ze'
@@ -45,10 +52,10 @@ function! ColorWord(word, mode)
     let pat = case . '\V\<' . escape(a:word, '\') . '\>'
   endif
 
-  call matchadd("InterestingWord" . (n + 1), pat, 1, mid)
-
-  call s:markRecentlyUsed(n)
-
+  try
+    call matchadd("InterestingWord" . (a:n + 1), pat, 1, a:mid)
+  catch /E801/      " match id already taken.
+  endtry
 endfunction
 
 function! s:nearest_group_at_cursor() abort
@@ -150,6 +157,18 @@ function! UncolorAllWords()
     if (type(word) == 1)
       call UncolorWord(word)
     endif
+  endfor
+endfunction
+
+function! RecolorAllWords()
+  let i = 0
+  for word in s:interestingWords
+    if (type(word) == 1)
+      let mode = s:interestingModes[i]
+      let mid = s:mids[word]
+      call s:apply_color_to_word(i, word, mode, mid)
+    endif
+    let i += 1
   endfor
 endfunction
 
