@@ -197,7 +197,7 @@ function! s:buildColors()
   if (s:hasBuiltColors)
     return
   endif
-  if has('gui_running') || has('nvim')
+  if has('gui_running')
     let ui = 'gui'
     let wordColors = g:interestingWordsGUIColors
   else
