@@ -190,6 +190,13 @@ function! s:markRecentlyUsed(n)
   call add(s:recentlyUsed, a:n)
 endfunction
 
+function! s:uiMode()
+  " Stolen from airline's airline#init#gui_mode()
+  return ((has('nvim') && exists('$NVIM_TUI_ENABLE_TRUE_COLOR') && !exists("+termguicolors"))
+     \ || has('gui_running') || (has("termtruecolor") && &guicolors == 1) || (has("termguicolors") && &termguicolors == 1)) ?
+      \ 'gui' : 'cterm'
+endfunction
+
 " initialise highlight colors from list of GUIColors
 " initialise length of s:interestingWord list
 " initialise s:recentlyUsed list
@@ -197,13 +204,8 @@ function! s:buildColors()
   if (s:hasBuiltColors)
     return
   endif
-  if has('gui_running')
-    let ui = 'gui'
-    let wordColors = g:interestingWordsGUIColors
-  else
-    let ui = 'cterm'
-    let wordColors = g:interestingWordsTermColors
-  endif
+  let ui = s:uiMode()
+  let wordColors = (ui == 'gui') ? g:interestingWordsGUIColors : g:interestingWordsTermColors
   if (exists('g:interestingWordsRandomiseColors') && g:interestingWordsRandomiseColors)
     " fisher-yates shuffle
     let i = len(wordColors)-1
