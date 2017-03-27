@@ -73,8 +73,6 @@ The idea to build this plugin came from the **@stevelosh** video's where he show
 
 ## Author
 
-[twitter.com/lfv89](http://twitter.com/lfv89)
-
 [luisvasconcellos.com](http://www.luisvasconcellos.com)
 
 Feel free to talk to me about anything related to this project.
