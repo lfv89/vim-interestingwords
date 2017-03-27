@@ -71,7 +71,7 @@ let g:interestingWordsRandomiseColors = 1
 
 The idea to build this plugin came from the **@stevelosh** video's where he shows some pretty cool configurations from his .vimrc. He named this configuration interesting words, and I choose to keep the name for this plugin. The video is on youtube: https://www.youtube.com/watch?v=xZuy4gBghho
 
-## Author
+## Me
 
 [luisvasconcellos.com](http://www.luisvasconcellos.com)
 
