@@ -20,7 +20,6 @@ function! ColorWord(word, mode)
   if !(s:hasBuiltColors)
     call s:buildColors()
   endif
-
   " gets the lowest unused index
   let n = index(s:interestingWords, 0)
   if (n == -1)
@@ -66,9 +65,11 @@ function! s:nearest_group_at_cursor() abort
       continue
     endif
     let l:word = l:mids[0][0]
-    let l:position = match(getline('.'), l:match_item.pattern)
+    let l:col = col('.')
+    " TODO: using match group, add direction
+    let l:position = match(getline('.'), l:match_item.pattern, l:col - len(l:word))
     if l:position > -1
-      if col('.') > l:position && col('.') <= l:position + len(l:word)
+      if l:col <= l:position + len(l:word)
         return l:word
       endif
     endif
