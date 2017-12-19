@@ -8,30 +8,27 @@ A plugin that **highlights** the occurrences of the word under your cursor. It c
 
 ## Installation
 
-Using vundle, add this to your .vimrc:
+The recommended installation is through `vim-plug`:
 
 ```vimscript
-Plugin 'lfv89/vim-interestingwords'
-```
-
-Then run:
-
-```vimscript
-:PluginInstall
+Plug 'lfv89/vim-interestingwords'
 ```
 
 ## Usage
 
-### Highlight with ``<Leader>k``
+- Highlight with ``<Leader>k``
+- Navigate with ``n`` and ``N``
+- Clear highlights with ``<Leader>K``
+
+### Highlight
 
 This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
 
-
-### Navigate with ``n`` and ``N``
+### Navigation
 
 With a highlighted word **under your cursor**, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
 
-### Clear with ``<Leader>K``
+### Clearing Highlights
 
 Finally, if you don't want to toggle every single highlighted word and want to clear all of them, just hit ``<Leader>K``
 
