@@ -115,9 +115,9 @@ function! WordNavigation(direction)
     call search(pat, searchFlag)
   else
     if (a:direction)
-      silent! normal! n
+      normal! n
     else
-      silent! normal! N
+      normal! N
     endif
   endif
 endfunction
