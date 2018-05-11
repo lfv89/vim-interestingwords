@@ -121,6 +121,7 @@ function! WordNavigation(direction)
         normal! N
       endif
     catch /E486/
+      echohl WarningMsg | echomsg "E486: Pattern not found: " . @/
     endtry
   endif
 endfunction
