@@ -37,6 +37,8 @@ Finally, if you don't want to toggle every single highlighted word and want to c
 The plugin comes with those default mapping, but you can change it as you like:
 
 ```vimscript
+let g:interestingWordsDefaultMappings = 0
+
 nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
 nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 
