@@ -3,7 +3,7 @@
 Word highlighting and navigation throught out the buffer.
 
 
-vim-interestingwords highlights the occurrences of the word under the cursor throughout the buffer. Different words can be highlighted at the same time. The plugin also lets you navigate through the highlighted words in the buffer just like one would through the results of a search.
+vim-interestingwords highlights the occurrences of the word under the cursor throughout the buffer. Different words can be highlighted at the same time. The plugin also enables one to navigate through the highlighted words in the buffer just like one would through the results of a search.
 
 ![Screenshot](https://i.imgbox.com/5k3OJWIk.png)
 
