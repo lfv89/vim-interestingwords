@@ -1,10 +1,11 @@
 # vim-interestingwords
 
+Word highlighting and navigation throught out the buffer.
+
+
+vim-interestingwords highlights the occurrences of the word under the cursor throughout the buffer. Different words can be highlighted at the same time. The plugin also lets you navigate through the highlighted words in the buffer just like one would through the results of a search.
+
 ![Screenshot](https://i.imgbox.com/5k3OJWIk.png)
-
-## What is it?
-
-A plugin that **highlights** the occurrences of the word under your cursor. It can be used to highlight **different** words at the same time. It also lets you **navigate** through the highlighted words just like you would navigate through the results of a search.
 
 ## Installation
 
@@ -17,18 +18,18 @@ Plug 'lfv89/vim-interestingwords'
 ## Usage
 
 - Highlight with ``<Leader>k``
-- Navigate with ``n`` and ``N``
-- Clear highlights with ``<Leader>K``
+- Navigate highlighted words with ``n`` and ``N``
+- Clear every word highlight with ``<Leader>K`` throughout the buffer
 
-### Highlight
+### Highlighting Words
 
-This key will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
+``<Leader>k`` will act as a **toggle**, so you can use it to highlight and remove the highlight from a given word. Note that you can highlight different words at the same time.
 
-### Navigation
+### Navigating Highlights
 
 With a highlighted word **under your cursor**, you can **navigate** through the occurrences of this word with ``n`` and ``N``, just as you would if you were using a traditional search.
 
-### Clearing Highlights
+### Clearing (every) Highlight
 
 Finally, if you don't want to toggle every single highlighted word and want to clear all of them, just hit ``<Leader>K``
 
@@ -67,9 +68,3 @@ let g:interestingWordsRandomiseColors = 1
 ## Credits
 
 The idea to build this plugin came from the **@stevelosh** video's where he shows some pretty cool configurations from his .vimrc. He named this configuration interesting words, and I choose to keep the name for this plugin. The video is on youtube: https://www.youtube.com/watch?v=xZuy4gBghho
-
-## Me
-
-[luisvasconcellos.com](http://www.luisvasconcellos.com)
-
-Feel free to talk to me about anything related to this project.
