@@ -240,11 +240,11 @@ function! s:Random(n)
   return float2nr(floor(a:n * timestamp/100))
 endfunction
 
-if !exists('g:interestingWordsDefaultMappings')
+if !exists('g:interestingWordsDefaultMappings') || g:interestingWordsDefaultMappings != 0
     let g:interestingWordsDefaultMappings = 1
 endif
 
-if !hasmapto('<Plug>InterestingWords')
+if g:interestingWordsDefaultMappings && !hasmapto('<Plug>InterestingWords')
     nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
     vnoremap <silent> <leader>k :call InterestingWords('v')<cr>
     nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
