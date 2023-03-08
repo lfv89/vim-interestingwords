@@ -66,12 +66,15 @@ function! s:nearest_group_at_cursor() abort
       continue
     endif
     let l:word = l:mids[0][0]
-    let l:position = match(getline('.'), l:match_item.pattern)
-    if l:position > -1
-      if col('.') > l:position && col('.') <= l:position + len(l:word)
-        return l:word
-      endif
-    endif
+    let l:cnt = 1
+    let l:position = match(getline('.'), l:match_item.pattern,0,cnt)
+    while l:position > -1 && col('.') > l:position 
+        if col('.') <= l:position + len(l:word)
+            return l:word
+        endif
+        let l:cnt += 1
+        let l:position = match(getline('.'), l:match_item.pattern,0,l:cnt)
+    endwhile
   endfor
   return ''
 endfunction
