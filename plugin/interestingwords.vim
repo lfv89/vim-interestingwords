@@ -120,8 +120,14 @@ function! WordNavigation(direction)
       else
         normal! N
       endif
-    catch /E486/
-      echohl WarningMsg | echomsg "E486: Pattern not found: " . @/
+    catch /^Vim\%((\a\+)\)\=:\%(E486\|E385\|E384\)/
+      if v:exception =~ 'E486'
+        echohl WarningMsg | echomsg "E486: Pattern not found: " . @/
+      elseif v:exception =~ 'E385'
+        echohl MoreMsg | echomsg "Search hit BOTTOM"
+      elseif v:exception =~ 'E384'
+        echohl MoreMsg | echomsg "Search hit TOP"
+      endif
     endtry
   endif
 endfunction
